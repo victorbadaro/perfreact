@@ -9,7 +9,11 @@ type Product = {
 
 type Results = {
 	totalPrice: number;
-	data: Product[];
+	data: Array<
+		Product & {
+			priceFormatted: string;
+		}
+	>;
 };
 
 export default function Home() {
