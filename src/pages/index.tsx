@@ -29,11 +29,23 @@ export default function Home() {
 		const response = await fetch(`http://localhost:3333/products?q=${search}`);
 		const data = (await response.json()) as Product[];
 
+		const formatter = new Intl.NumberFormat('pt-BR', {
+			style: 'currency',
+			currency: 'BRL'
+		});
+
+		const products = data.map((product) => ({
+			id: product.id,
+			title: product.title,
+			price: product.price,
+			priceFormatted: formatter.format(product.price)
+		}));
+
 		const totalPrice = data.reduce((total, product) => {
 			return total + product.price;
 		}, 0);
 
-		setResults({ totalPrice, data });
+		setResults({ totalPrice, data: products });
 	}
 
 	const addToWishList = useCallback(async (id: number) => {
